@@ -1,2 +1,9 @@
-# codeowners-parser
-The parser for CODEOWNERS file
+# CodeOwners Parser
+
+## Roadmap
+
+* [X] Parse method
+* [ ] Benchmark
+* [ ] IsValid method
+* [ ] GitLab support
+* [ ] Continuous Integration
