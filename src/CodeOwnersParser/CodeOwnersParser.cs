@@ -2,70 +2,23 @@
 
 namespace CodeOwnersParser;
 
-internal class StringLexer
-{
-    private readonly string _content;
-    private int _currentIndex;
-
-    public StringLexer(string content)
-    {
-        _content = content;
-    }
-
-    public bool EndOfContent => _currentIndex >= _content.Length;
-
-    public bool EndOfLine => EndOfContent || _content[_currentIndex] == '\n' ||
-                             (_content[_currentIndex] == '\r' && _content[_currentIndex + 1] == '\n');
-
-    public char? Current => EndOfContent ? null : _content[_currentIndex];
-
-    public char? Peek()
-    {
-        if (_currentIndex + 1 >= _content.Length) return null;
-
-        return _content[_currentIndex + 1];
-    }
-
-    public char Consume()
-    {
-        if (EndOfContent) throw new InvalidOperationException();
-
-        return _content[_currentIndex++];
-    }
-
-    public void ConsumeUntilEndOfLine()
-    {
-        while (!EndOfLine)
-        {
-            if (EndOfContent) return;
-            Consume();
-        }
-    }
-
-    public void ConsumeAll(char character)
-    {
-        if (EndOfContent || _content[_currentIndex] != character) return;
-
-        while (Peek() == character)
-            Consume();
-
-        Consume();
-    }
-}
+public record CodeOwnersEntry(string Pattern, IList<string> Owners);
 
 public class CodeOwnersParser
 {
-    public IEnumerable<(string Pattern, IEnumerable<string> Owners)> Parse(string content)
+    public IEnumerable<CodeOwnersEntry> Parse(string content)
     {
         var lexer = new StringLexer(content);
+        var stringBuilder = new StringBuilder();
+
         while (!lexer.EndOfContent)
         {
-            var lineResult = ParseLine(lexer);
-            if (lineResult != null) yield return lineResult.Value;
+            var lineResult = ParseLine(lexer, stringBuilder);
+            if (lineResult != null) yield return lineResult;
         }
     }
 
-    static (string Pattern, IEnumerable<string> Owners)? ParseLine(StringLexer lexer)
+    private static CodeOwnersEntry? ParseLine(StringLexer lexer, StringBuilder stringBuilder)
     {
         while (!lexer.EndOfLine)
         {
@@ -82,11 +35,11 @@ public class CodeOwnersParser
                 continue;
             }
 
-            var pattern = ParsePathPattern(lexer);
+            var pattern = ParsePathPattern(lexer, stringBuilder);
             lexer.ConsumeAll(' ');
-            var owners = ParseOwners(lexer);
+            var owners = ParseOwners(lexer, stringBuilder);
 
-            return (pattern, owners);
+            return new CodeOwnersEntry(pattern, owners);
         }
 
         if (!lexer.EndOfContent)
@@ -95,10 +48,8 @@ public class CodeOwnersParser
         return null;
     }
 
-    private static string ParsePathPattern(StringLexer lexer)
+    private static string ParsePathPattern(StringLexer lexer, StringBuilder stringBuilder)
     {
-        var stringBuilder = new StringBuilder();
-
         while (!lexer.EndOfLine)
         {
             var character = lexer.Consume();
@@ -106,20 +57,19 @@ public class CodeOwnersParser
             {
                 case ' ':
                 case '\t':
-                    return stringBuilder.ToString();
+                    return stringBuilder.ToStringAndClear();
                 default:
                     stringBuilder.Append(character);
                     break;
             }
         }
 
-        return stringBuilder.ToString();
+        return stringBuilder.ToStringAndClear();
     }
 
-    private static IEnumerable<string> ParseOwners(StringLexer lexer)
+    private static IList<string> ParseOwners(StringLexer lexer, StringBuilder stringBuilder)
     {
         var owners = new List<string>();
-        var stringBuilder = new StringBuilder();
 
         while (!lexer.EndOfLine)
         {
@@ -127,8 +77,7 @@ public class CodeOwnersParser
             switch (character)
             {
                 case ' ':
-                    owners.Add(stringBuilder.ToString());
-                    stringBuilder.Clear();
+                    owners.Add(stringBuilder.ToStringAndClear());
                     break;
                 default:
                     stringBuilder.Append(character);
@@ -137,7 +86,7 @@ public class CodeOwnersParser
         }
 
         if (stringBuilder.Length > 0)
-            owners.Add(stringBuilder.ToString());
+            owners.Add(stringBuilder.ToStringAndClear());
 
         return owners;
     }
