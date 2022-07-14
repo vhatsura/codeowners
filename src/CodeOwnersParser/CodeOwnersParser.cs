@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 
 namespace CodeOwnersParser;
 
@@ -8,13 +8,19 @@ public class CodeOwnersParser
 {
     public IEnumerable<CodeOwnersEntry> Parse(string content)
     {
+        if (content == null)
+            throw new ArgumentNullException(nameof(content));
+        if (string.IsNullOrWhiteSpace(content))
+            yield break;
+
         var lexer = new StringLexer(content);
         var stringBuilder = new StringBuilder();
 
         while (!lexer.EndOfContent)
         {
             var lineResult = ParseLine(lexer, stringBuilder);
-            if (lineResult != null) yield return lineResult;
+            if (lineResult != null)
+                yield return lineResult;
         }
     }
 
@@ -23,11 +29,6 @@ public class CodeOwnersParser
         while (!lexer.EndOfLine)
         {
             var character = lexer.Current;
-
-            if (character == null)
-            {
-                throw new InvalidOperationException();
-            }
 
             if (character == '#')
             {

@@ -11,6 +11,8 @@ public class CodeOwnersParserTests
     {
         get
         {
+            yield return new object[] { string.Empty, new List<CodeOwnersEntry>() };
+
             yield return new object[]
             {
                 "*       @global-owner1 @global-owner2",
