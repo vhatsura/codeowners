@@ -1,6 +1,7 @@
 using BenchmarkDotNet.Attributes;
+using CodeOwners;
 
-namespace CodeOwnersParser.Benchmarks;
+namespace CodeOwners.Benchmarks;
 
 [MemoryDiagnoser]
 public class CodeOwnersParserBenchmark

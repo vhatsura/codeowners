@@ -4,7 +4,6 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Authors>Vadim Hatsura</Authors>
     <Description>The parser for CODEOWNERS file.</Description>
@@ -19,6 +18,7 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisMode>All</AnalysisMode>
     <AnalysisLevel>latest</AnalysisLevel>
+    <RootNamespace>CodeOwners</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

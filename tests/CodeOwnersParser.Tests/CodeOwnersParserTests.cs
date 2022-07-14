@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using FluentAssertions;
 using Xunit;
 
-namespace CodeOwnersParser.Tests;
+namespace CodeOwners.Tests;
 
 public class CodeOwnersParserTests
 {
