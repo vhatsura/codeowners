@@ -5,15 +5,15 @@
 
 ## Installation
 
-```shell
-using CodeOwners;
-
+```powershell
 Install-Package CodeOwnersParser
 ```
 
 ## Usage
 
 ```csharp
+using CodeOwners;
+
 CodeOwnersParser.Parse("*       @global-owner1 @global-owner2");
 ```
 
