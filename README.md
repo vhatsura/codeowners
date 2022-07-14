@@ -1,5 +1,20 @@
 # CodeOwners Parser
 
+![GitHub Actions Badge](https://github.com/vhatsura/codeowners-parser/actions/workflows/continuous.integration.yml/badge.svg)
+[![NuGet Badge](https://buildstats.info/nuget/CodeOwnersParser)](https://www.nuget.org/packages/CodeOwnersParser/)
+
+## Installation
+
+```shell
+Install-Package CodeOwnersParser
+```
+
+## Usage
+
+```csharp
+CodeOwnersParser.Parse("*       @global-owner1 @global-owner2");
+```
+
 ## Benchmark results
 
 ```text
