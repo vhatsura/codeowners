@@ -15,18 +15,22 @@ internal class StringLexer
     public bool EndOfLine => EndOfContent || _content[_currentIndex] == '\n' ||
                              (_content[_currentIndex] == '\r' && _content[_currentIndex + 1] == '\n');
 
-    public char? Current => EndOfContent ? null : _content[_currentIndex];
+    public char Current => !EndOfContent
+        ? _content[_currentIndex]
+        : throw new InvalidOperationException("End of content was reached. It is impossible to get current character");
 
     public char? Peek()
     {
-        if (_currentIndex + 1 >= _content.Length) return null;
+        if (_currentIndex + 1 >= _content.Length)
+            return null;
 
         return _content[_currentIndex + 1];
     }
 
     public char Consume()
     {
-        if (EndOfContent) throw new InvalidOperationException();
+        if (EndOfContent)
+            throw new InvalidOperationException("End of content was reached; consume operation are not allowed");
 
         return _content[_currentIndex++];
     }
@@ -35,14 +39,16 @@ internal class StringLexer
     {
         while (!EndOfLine)
         {
-            if (EndOfContent) return;
+            if (EndOfContent)
+                return;
             Consume();
         }
     }
 
     public void ConsumeAll(char character)
     {
-        if (EndOfContent || _content[_currentIndex] != character) return;
+        if (EndOfContent || _content[_currentIndex] != character)
+            return;
 
         while (Peek() == character)
             Consume();

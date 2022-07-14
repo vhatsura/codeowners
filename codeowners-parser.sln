@@ -4,12 +4,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeOwnersParser", "src\Cod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeOwnersParser.Tests", "tests\CodeOwnersParser.Tests\CodeOwnersParser.Tests.csproj", "{5534E36E-2362-4940-B49E-7E19C3FD446E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{99A4E845-0D7E-4349-A5A8-0D5ED3B1AEB7}"
-	ProjectSection(SolutionItems) = preProject
-		LICENSE = LICENSE
-		README.md = README.md
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeOwnersParser.Benchmarks", "benchmarks\CodeOwnersParser.Benchmarks\CodeOwnersParser.Benchmarks.csproj", "{33FA15AD-8517-487F-95F3-FE4919ECF1DF}"
 EndProject
 Global
@@ -30,5 +24,7 @@ Global
 		{33FA15AD-8517-487F-95F3-FE4919ECF1DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33FA15AD-8517-487F-95F3-FE4919ECF1DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33FA15AD-8517-487F-95F3-FE4919ECF1DF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 EndGlobal
