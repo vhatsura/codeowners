@@ -1,4 +1,4 @@
 using BenchmarkDotNet.Running;
-using CodeOwnersParser.Benchmarks;
+using CodeOwners.Benchmarks;
 
 BenchmarkRunner.Run<CodeOwnersParserBenchmark>();

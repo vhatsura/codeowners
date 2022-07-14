@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace CodeOwnersParser;
+namespace CodeOwners;
 
 internal static class StringBuilderExtensions
 {

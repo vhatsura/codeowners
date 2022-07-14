@@ -6,6 +6,8 @@
 ## Installation
 
 ```shell
+using CodeOwners;
+
 Install-Package CodeOwnersParser
 ```
 

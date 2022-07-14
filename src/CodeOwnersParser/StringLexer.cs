@@ -1,4 +1,4 @@
-namespace CodeOwnersParser;
+namespace CodeOwners;
 
 internal class StringLexer
 {
