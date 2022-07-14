@@ -68,11 +68,8 @@ public class CodeOwnersParserTests
     [MemberData(nameof(CorrectData))]
     public void Parse_ShouldParseContentCorrectly(string content, IEnumerable<CodeOwnersEntry> expectedResult)
     {
-        // Arrange
-        var parser = new CodeOwnersParser();
-
-        // Act
-        var result = parser.Parse(content);
+        // Arrange + Act
+        var result = CodeOwnersParser.Parse(content);
 
         // Assert
         result.Should().BeEquivalentTo(expectedResult);
@@ -82,7 +79,6 @@ public class CodeOwnersParserTests
     public void Parse_ShouldParseMultiLineContentCorrectly()
     {
         // Arrange
-        var parser = new CodeOwnersParser();
         var content = @"# This is a comment.
 # Each line is a file pattern followed by one or more owners.
 
@@ -139,7 +135,7 @@ apps/ @octocat
 /apps/github";
 
         // Act
-        var result = parser.Parse(content);
+        var result = CodeOwnersParser.Parse(content);
 
         // Assert
         result.Should().BeEquivalentTo(new List<CodeOwnersEntry>

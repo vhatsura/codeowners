@@ -2,11 +2,25 @@ using System.Text;
 
 namespace CodeOwnersParser;
 
+/// <summary>
+///
+/// </summary>
+/// <param name="Pattern"></param>
+/// <param name="Owners"></param>
 public record CodeOwnersEntry(string Pattern, IList<string> Owners);
 
-public class CodeOwnersParser
+/// <summary>
+/// The parser for CODEOWNERS format
+/// </summary>
+public static class CodeOwnersParser
 {
-    public IEnumerable<CodeOwnersEntry> Parse(string content)
+    /// <summary>
+    ///     Parses CODEOWNERS content
+    /// </summary>
+    /// <param name="content">The content in CODEOWNERS format</param>
+    /// <returns>The list of CODEOWNERS entries</returns>
+    /// <exception cref="ArgumentNullException">The <paramref name="content"/> is null</exception>
+    public static IEnumerable<CodeOwnersEntry> Parse(string content)
     {
         if (content == null)
             throw new ArgumentNullException(nameof(content));

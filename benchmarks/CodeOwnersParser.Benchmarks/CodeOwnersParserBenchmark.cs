@@ -62,16 +62,9 @@ apps/ @octocat
 /apps/ @octocat
 /apps/github";
 
-    private readonly CodeOwnersParser _parser;
-
-    public CodeOwnersParserBenchmark()
-    {
-        _parser = new CodeOwnersParser();
-    }
+    [Benchmark]
+    public IList<CodeOwnersEntry> OneLine() => CodeOwnersParser.Parse(_oneLine).ToList();
 
     [Benchmark]
-    public IList<CodeOwnersEntry> OneLine() => _parser.Parse(_oneLine).ToList();
-
-    [Benchmark]
-    public IList<CodeOwnersEntry> MultiLine() => _parser.Parse(_multiLine).ToList();
+    public IList<CodeOwnersEntry> MultiLine() => CodeOwnersParser.Parse(_multiLine).ToList();
 }
