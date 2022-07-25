@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using FluentAssertions;
+using Snapshooter.Xunit;
 using Xunit;
 
 namespace CodeOwners.Tests;
 
-public class CodeOwnersParserTests
+public class CodeOwnersSerializerTests
 {
     public static IEnumerable<object[]> CorrectData
     {
@@ -66,17 +67,18 @@ public class CodeOwnersParserTests
 
     [Theory]
     [MemberData(nameof(CorrectData))]
-    public void Parse_ShouldParseContentCorrectly(string content, IEnumerable<CodeOwnersEntry> expectedResult)
+    public void Deserialize_ShouldDeserializeContentCorrectly(string content,
+        IEnumerable<CodeOwnersEntry> expectedResult)
     {
         // Arrange + Act
-        var result = CodeOwnersParser.Parse(content);
+        var result = CodeOwnersSerializer.Deserialize(content);
 
         // Assert
         result.Should().BeEquivalentTo(expectedResult);
     }
 
     [Fact]
-    public void Parse_ShouldParseMultiLineContentCorrectly()
+    public void Deserialize_ShouldDeserializeMultiLineContentCorrectly()
     {
         // Arrange
         var content = @"# This is a comment.
@@ -135,7 +137,7 @@ apps/ @octocat
 /apps/github";
 
         // Act
-        var result = CodeOwnersParser.Parse(content);
+        var result = CodeOwnersSerializer.Deserialize(content);
 
         // Assert
         result.Should().BeEquivalentTo(new List<CodeOwnersEntry>
@@ -152,5 +154,39 @@ apps/ @octocat
             new("/apps/", new List<string> { "@octocat" }),
             new("/apps/github", new List<string>())
         });
+    }
+
+
+    [Fact]
+    public void Serialize_ShouldSerializeOneLineContentCorrectly()
+    {
+        // Arrange
+        var codeOwners =
+            new List<CodeOwnersEntry> { new("*", new List<string> { "@global-owner1", "@global-owner2" }) };
+
+        // Act
+        var result = CodeOwnersSerializer.Serialize(codeOwners);
+
+        // Assert
+        result.MatchSnapshot();
+    }
+
+    [Fact]
+    public void Serialize_ShouldSerializeMultiLineContentCorrectly()
+    {
+        // Arrange
+        var codeOwners =
+            new List<CodeOwnersEntry>
+            {
+                new("*", new List<string> { "@global-owner1", "@global-owner2" }),
+                new("*.js", new List<string> { "@js-owner" }),
+                new("*.go", new List<string> { "docs@example.com" }),
+            };
+
+        // Act
+        var result = CodeOwnersSerializer.Serialize(codeOwners);
+
+        // Assert
+        result.MatchSnapshot();
     }
 }

@@ -1,0 +1,3 @@
+﻿* @global-owner1 @global-owner2
+*.js @js-owner
+*.go docs@example.com
