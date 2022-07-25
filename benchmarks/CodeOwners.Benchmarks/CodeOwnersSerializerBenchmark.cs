@@ -4,7 +4,7 @@ using CodeOwners;
 namespace CodeOwners.Benchmarks;
 
 [MemoryDiagnoser]
-public class CodeOwnersParserBenchmark
+public class CodeOwnersSerializerBenchmark
 {
     private readonly string _oneLine = "*   @global-owner";
 
@@ -64,8 +64,8 @@ apps/ @octocat
 /apps/github";
 
     [Benchmark]
-    public IList<CodeOwnersEntry> OneLine() => CodeOwnersParser.Parse(_oneLine).ToList();
+    public IList<CodeOwnersEntry> OneLine() => CodeOwnersSerializer.Deserialize(_oneLine).ToList();
 
     [Benchmark]
-    public IList<CodeOwnersEntry> MultiLine() => CodeOwnersParser.Parse(_multiLine).ToList();
+    public IList<CodeOwnersEntry> MultiLine() => CodeOwnersSerializer.Deserialize(_multiLine).ToList();
 }

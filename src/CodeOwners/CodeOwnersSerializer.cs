@@ -10,17 +10,17 @@ namespace CodeOwners;
 public record CodeOwnersEntry(string Pattern, IList<string> Owners);
 
 /// <summary>
-/// The parser for CODEOWNERS format
+/// The serializer for CODEOWNERS format
 /// </summary>
-public static class CodeOwnersParser
+public static class CodeOwnersSerializer
 {
     /// <summary>
-    ///     Parses CODEOWNERS content
+    ///     Deserializes CODEOWNERS content
     /// </summary>
     /// <param name="content">The content in CODEOWNERS format</param>
     /// <returns>The list of CODEOWNERS entries</returns>
     /// <exception cref="ArgumentNullException">The <paramref name="content"/> is null</exception>
-    public static IEnumerable<CodeOwnersEntry> Parse(string content)
+    public static IEnumerable<CodeOwnersEntry> Deserialize(string content)
     {
         if (content == null)
             throw new ArgumentNullException(nameof(content));
@@ -36,6 +36,28 @@ public static class CodeOwnersParser
             if (lineResult != null)
                 yield return lineResult;
         }
+    }
+
+    /// <summary>
+    ///     Serializes codeowners entries to CODEOWNERS content
+    /// </summary>
+    /// <param name="entries">Codeowners entries</param>
+    /// <returns>The content in CODEOWNERS format</returns>
+    public static string Serialize(IEnumerable<CodeOwnersEntry> entries)
+    {
+        if (entries == null)
+            throw new ArgumentNullException(nameof(entries));
+
+        var stringBuilder = new StringBuilder();
+
+        foreach (var entry in entries)
+        {
+#pragma warning disable CA1305
+            stringBuilder.AppendLine($"{entry.Pattern} {string.Join(" ", entry.Owners)}");
+#pragma warning restore CA1305
+        }
+
+        return stringBuilder.ToString();
     }
 
     private static CodeOwnersEntry? ParseLine(StringLexer lexer, StringBuilder stringBuilder)

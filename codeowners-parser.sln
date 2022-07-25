@@ -1,10 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeOwnersParser", "src\CodeOwnersParser\CodeOwnersParser.csproj", "{3280E767-7294-4865-A1AE-9F94D3571929}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeOwners", "src\CodeOwners\CodeOwners.csproj", "{3280E767-7294-4865-A1AE-9F94D3571929}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeOwnersParser.Tests", "tests\CodeOwnersParser.Tests\CodeOwnersParser.Tests.csproj", "{5534E36E-2362-4940-B49E-7E19C3FD446E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeOwners.Tests", "tests\CodeOwners.Tests\CodeOwners.Tests.csproj", "{5534E36E-2362-4940-B49E-7E19C3FD446E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeOwnersParser.Benchmarks", "benchmarks\CodeOwnersParser.Benchmarks\CodeOwnersParser.Benchmarks.csproj", "{33FA15AD-8517-487F-95F3-FE4919ECF1DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeOwners.Benchmarks", "benchmarks\CodeOwners.Benchmarks\CodeOwners.Benchmarks.csproj", "{33FA15AD-8517-487F-95F3-FE4919ECF1DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
