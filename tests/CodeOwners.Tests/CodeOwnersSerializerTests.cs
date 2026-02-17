@@ -1,7 +1,5 @@
-using System;
-using System.Collections.Generic;
-using FluentAssertions;
-using Snapshooter.Xunit;
+using Shouldly;
+using Snapshooter.Xunit3;
 using Xunit;
 
 namespace CodeOwners.Tests;
@@ -12,73 +10,73 @@ public class CodeOwnersSerializerTests
     {
         get
         {
-            yield return new object[] { string.Empty, new List<CodeOwnersEntry>() };
+            yield return [string.Empty, new List<CodeOwnersEntry>()];
 
-            yield return new object[]
-            {
+            yield return
+            [
                 "*       @global-owner1 @global-owner2",
-                new List<CodeOwnersEntry> { new("*", new[] { "@global-owner1", "@global-owner2" }) }
-            };
+                new List<CodeOwnersEntry> { new("*", ["@global-owner1", "@global-owner2"]) }
+            ];
 
-            yield return new object[]
-            {
-                "*.js    @js-owner", new List<CodeOwnersEntry> { new("*.js", new[] { "@js-owner" }) }
-            };
+            yield return
+            [
+                "*.js    @js-owner", new List<CodeOwnersEntry> { new("*.js", ["@js-owner"]) }
+            ];
 
-            yield return new object[]
-            {
-                "*.go docs@example.com", new List<CodeOwnersEntry> { new("*.go", new[] { "docs@example.com" }) }
-            };
+            yield return
+            [
+                "*.go docs@example.com", new List<CodeOwnersEntry> { new("*.go", ["docs@example.com"]) }
+            ];
 
-            yield return new object[]
-            {
+            yield return
+            [
                 "*.txt @octo-org/octocats",
-                new List<CodeOwnersEntry> { new("*.txt", new[] { "@octo-org/octocats" }) }
-            };
+                new List<CodeOwnersEntry> { new("*.txt", ["@octo-org/octocats"]) }
+            ];
 
-            yield return new object[]
-            {
-                "/build/logs/ @doctocat", new List<CodeOwnersEntry> { new("/build/logs/", new[] { "@doctocat" }) }
-            };
+            yield return
+            [
+                "/build/logs/ @doctocat", new List<CodeOwnersEntry> { new("/build/logs/", ["@doctocat"]) }
+            ];
 
-            yield return new object[]
-            {
+            yield return
+            [
                 "docs/*  docs@example.com",
-                new List<CodeOwnersEntry> { new("docs/*", new[] { "docs@example.com" }) }
-            };
+                new List<CodeOwnersEntry> { new("docs/*", ["docs@example.com"]) }
+            ];
 
-            yield return new object[]
-            {
-                "apps/ @octocat", new List<CodeOwnersEntry> { new("apps/", new[] { "@octocat" }) }
-            };
+            yield return
+            [
+                "apps/ @octocat", new List<CodeOwnersEntry> { new("apps/", ["@octocat"]) }
+            ];
 
-            yield return new object[]
-            {
+            yield return
+            [
                 "/scripts/ @doctocat @octocat",
-                new List<CodeOwnersEntry> { new("/scripts/", new[] { "@doctocat", "@octocat" }) }
-            };
+                new List<CodeOwnersEntry> { new("/scripts/", ["@doctocat", "@octocat"]) }
+            ];
 
-            yield return new object[]
-            {
+            yield return
+            [
                 "/apps/github", new List<CodeOwnersEntry> { new("/apps/github", Array.Empty<string>()) }
-            };
+            ];
         }
     }
 
     [Theory]
     [MemberData(nameof(CorrectData))]
-    public void Deserialize_ShouldDeserializeContentCorrectly(string content,
+    public void DeserializeShouldDeserializeContentCorrectly(string content,
         IEnumerable<CodeOwnersEntry> expectedResult)
     {
         // Arrange + Act
         var result = CodeOwnersSerializer.Deserialize(content);
 
         // Assert
-        result.Should().BeEquivalentTo(expectedResult);
+        result.ShouldBe(expectedResult);
     }
 
     [Fact]
-    public void Deserialize_ShouldDeserializeMultiLineContentCorrectly()
+    public void DeserializeShouldDeserializeMultiLineContentCorrectly()
     {
         // Arrange
         var content = @"# This is a comment.
@@ -140,25 +138,25 @@ apps/ @octocat
         var result = CodeOwnersSerializer.Deserialize(content);
 
         // Assert
-        result.Should().BeEquivalentTo(new List<CodeOwnersEntry>
+        result.ShouldBe(new List<CodeOwnersEntry>
         {
-            new("*", new List<string> { "@global-owner1", "@global-owner2" }),
-            new("*.js", new List<string> { "@js-owner" }),
-            new("*.go", new List<string> { "docs@example.com" }),
-            new("*.txt", new List<string> { "@octo-org/octocats" }),
-            new("/build/logs/", new List<string> { "@doctocat" }),
-            new("docs/*", new List<string> { "docs@example.com" }),
-            new("apps/", new List<string> { "@octocat" }),
-            new("/docs/", new List<string> { "@doctocat" }),
-            new("/scripts/", new List<string> { "@doctocat", "@octocat" }),
-            new("/apps/", new List<string> { "@octocat" }),
-            new("/apps/github", new List<string>())
+            new("*", ["@global-owner1", "@global-owner2"]),
+            new("*.js", ["@js-owner"]),
+            new("*.go", ["docs@example.com"]),
+            new("*.txt", ["@octo-org/octocats"]),
+            new("/build/logs/", ["@doctocat"]),
+            new("docs/*", ["docs@example.com"]),
+            new("apps/", ["@octocat"]),
+            new("/docs/", ["@doctocat"]),
+            new("/scripts/", ["@doctocat", "@octocat"]),
+            new("/apps/", ["@octocat"]),
+            new("/apps/github", Array.Empty<string>())
         });
     }
 
 
     [Fact]
-    public void Serialize_ShouldSerializeOneLineContentCorrectly()
+    public void SerializeShouldSerializeOneLineContentCorrectly()
     {
         // Arrange
         var codeOwners =
@@ -168,11 +166,12 @@ apps/ @octocat
         var result = CodeOwnersSerializer.Serialize(codeOwners);
 
         // Assert
+        result.ShouldNotBeNullOrWhiteSpace();
         result.MatchSnapshot();
     }
 
     [Fact]
-    public void Serialize_ShouldSerializeMultiLineContentCorrectly()
+    public void SerializeShouldSerializeMultiLineContentCorrectly()
     {
         // Arrange
         var codeOwners =
@@ -187,6 +186,7 @@ apps/ @octocat
         var result = CodeOwnersSerializer.Serialize(codeOwners);
 
         // Assert
+        result.ShouldNotBeNullOrWhiteSpace();
         result.MatchSnapshot();
     }
 }

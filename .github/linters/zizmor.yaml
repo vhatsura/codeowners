@@ -1,0 +1,6 @@
+rules:
+  unpinned-uses:
+    ignore:
+      - continuous.integration.yml
+      - linter.yml
+      - nuget.publish.yml

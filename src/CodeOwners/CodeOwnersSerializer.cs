@@ -7,7 +7,26 @@ namespace CodeOwners;
 /// </summary>
 /// <param name="Pattern"></param>
 /// <param name="Owners"></param>
-public record CodeOwnersEntry(string Pattern, IList<string> Owners);
+public record CodeOwnersEntry(string Pattern, IList<string> Owners)
+{
+    /// <inheritdoc />
+    public virtual bool Equals(CodeOwnersEntry? other)
+    {
+        if (other is null) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return Pattern == other.Pattern && Owners.SequenceEqual(other.Owners);
+    }
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        var hash = new HashCode();
+        hash.Add(Pattern);
+        foreach (var owner in Owners)
+            hash.Add(owner);
+        return hash.ToHashCode();
+    }
+}
 
 /// <summary>
 /// The serializer for CODEOWNERS format
@@ -22,8 +41,7 @@ public static class CodeOwnersSerializer
     /// <exception cref="ArgumentNullException">The <paramref name="content"/> is null</exception>
     public static IEnumerable<CodeOwnersEntry> Deserialize(string content)
     {
-        if (content == null)
-            throw new ArgumentNullException(nameof(content));
+        ArgumentNullException.ThrowIfNull(content);
         if (string.IsNullOrWhiteSpace(content))
             yield break;
 
@@ -45,8 +63,7 @@ public static class CodeOwnersSerializer
     /// <returns>The content in CODEOWNERS format</returns>
     public static string Serialize(IEnumerable<CodeOwnersEntry> entries)
     {
-        if (entries == null)
-            throw new ArgumentNullException(nameof(entries));
+        ArgumentNullException.ThrowIfNull(entries);
 
         var stringBuilder = new StringBuilder();
 
@@ -104,7 +121,7 @@ public static class CodeOwnersSerializer
         return stringBuilder.ToStringAndClear();
     }
 
-    private static IList<string> ParseOwners(StringLexer lexer, StringBuilder stringBuilder)
+    private static List<string> ParseOwners(StringLexer lexer, StringBuilder stringBuilder)
     {
         var owners = new List<string>();
 
