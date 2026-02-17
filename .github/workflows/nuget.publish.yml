@@ -50,7 +50,7 @@ jobs:
       - name: NuGet login
         uses: nuget/login@v1
         with:
-          nuget-server-url: https://api.nuget.org/v3/index.json
+          user: vHatsura
 
       - name: Push
         run: dotnet nuget push './nupkgs/*.nupkg' -s https://api.nuget.org/v3/index.json
