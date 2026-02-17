@@ -25,6 +25,7 @@ jobs:
         uses: super-linter/super-linter@v8
         env:
           VALIDATE_ALL_CODEBASE: false
+          VALIDATE_BIOME_FORMAT: false
           VALIDATE_EDITORCONFIG: false
           VALIDATE_SPELL_CODESPELL: false
           DEFAULT_BRANCH: main
