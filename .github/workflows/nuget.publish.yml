@@ -49,8 +49,9 @@ jobs:
 
       - name: NuGet login
         uses: nuget/login@v1
+        id: login
         with:
           user: vHatsura
 
       - name: Push
-        run: dotnet nuget push './nupkgs/*.nupkg' -s https://api.nuget.org/v3/index.json
+        run: dotnet nuget push './nupkgs/*.nupkg' --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" -s https://api.nuget.org/v3/index.json
