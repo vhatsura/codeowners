@@ -21,5 +21,5 @@ string content = CodeOwnersSerializer.Serialize(entries);
 
 ## Roadmap
 
-* [ ] IsValid method
-* [ ] GitLab support
+- [ ] IsValid method
+- [ ] GitLab support

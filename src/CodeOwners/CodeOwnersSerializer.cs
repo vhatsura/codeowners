@@ -7,7 +7,26 @@ namespace CodeOwners;
 /// </summary>
 /// <param name="Pattern"></param>
 /// <param name="Owners"></param>
-public record CodeOwnersEntry(string Pattern, IList<string> Owners);
+public record CodeOwnersEntry(string Pattern, IList<string> Owners)
+{
+    /// <inheritdoc />
+    public virtual bool Equals(CodeOwnersEntry? other)
+    {
+        if (other is null) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return Pattern == other.Pattern && Owners.SequenceEqual(other.Owners);
+    }
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        var hash = new HashCode();
+        hash.Add(Pattern);
+        foreach (var owner in Owners)
+            hash.Add(owner);
+        return hash.ToHashCode();
+    }
+}
 
 /// <summary>
 /// The serializer for CODEOWNERS format

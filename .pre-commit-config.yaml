@@ -1,0 +1,37 @@
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.0
+    hooks:
+      - id: gitleaks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+  - repo: https://github.com/rbubley/mirrors-prettier
+    rev: v3.8.1
+    hooks:
+      - id: prettier
+        types_or: [yaml, markdown, json]
+        additional_dependencies:
+          - prettier@3.6.2
+        args: [--write]
+  - repo: https://github.com/ryanlewis/pre-commit-mirror-textlint
+    rev: v15.5.1
+    hooks:
+      - id: textlint
+        types: [markdown, text]
+        additional_dependencies:
+          - textlint@15.2.3
+          - textlint-rule-terminology@5.2.16
+        args: ["--rule", "terminology", "--fix"]
+  - repo: local
+    hooks:
+      - id: dotnet-format
+        name: dotnet-format
+        language: system
+        entry: dotnet format --no-restore
+        types_or: [c#]
+        args:
+          - --include

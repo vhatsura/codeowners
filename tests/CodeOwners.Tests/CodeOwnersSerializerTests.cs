@@ -72,7 +72,7 @@ public class CodeOwnersSerializerTests
         var result = CodeOwnersSerializer.Deserialize(content);
 
         // Assert
-        result.ShouldBeEquivalentTo(expectedResult);
+        result.ShouldBe(expectedResult);
     }
 
     [Fact]
@@ -138,19 +138,19 @@ apps/ @octocat
         var result = CodeOwnersSerializer.Deserialize(content);
 
         // Assert
-        result.ShouldBeEquivalentTo(new List<CodeOwnersEntry>
+        result.ShouldBe(new List<CodeOwnersEntry>
         {
-            new("*", new List<string> { "@global-owner1", "@global-owner2" }),
-            new("*.js", new List<string> { "@js-owner" }),
-            new("*.go", new List<string> { "docs@example.com" }),
-            new("*.txt", new List<string> { "@octo-org/octocats" }),
-            new("/build/logs/", new List<string> { "@doctocat" }),
-            new("docs/*", new List<string> { "docs@example.com" }),
-            new("apps/", new List<string> { "@octocat" }),
-            new("/docs/", new List<string> { "@doctocat" }),
-            new("/scripts/", new List<string> { "@doctocat", "@octocat" }),
-            new("/apps/", new List<string> { "@octocat" }),
-            new("/apps/github", new List<string>())
+            new("*", ["@global-owner1", "@global-owner2"]),
+            new("*.js", ["@js-owner"]),
+            new("*.go", ["docs@example.com"]),
+            new("*.txt", ["@octo-org/octocats"]),
+            new("/build/logs/", ["@doctocat"]),
+            new("docs/*", ["docs@example.com"]),
+            new("apps/", ["@octocat"]),
+            new("/docs/", ["@doctocat"]),
+            new("/scripts/", ["@doctocat", "@octocat"]),
+            new("/apps/", ["@octocat"]),
+            new("/apps/github", Array.Empty<string>())
         });
     }
 
