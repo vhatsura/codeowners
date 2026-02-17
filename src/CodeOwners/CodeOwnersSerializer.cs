@@ -22,8 +22,7 @@ public static class CodeOwnersSerializer
     /// <exception cref="ArgumentNullException">The <paramref name="content"/> is null</exception>
     public static IEnumerable<CodeOwnersEntry> Deserialize(string content)
     {
-        if (content == null)
-            throw new ArgumentNullException(nameof(content));
+        ArgumentNullException.ThrowIfNull(content);
         if (string.IsNullOrWhiteSpace(content))
             yield break;
 
@@ -45,8 +44,7 @@ public static class CodeOwnersSerializer
     /// <returns>The content in CODEOWNERS format</returns>
     public static string Serialize(IEnumerable<CodeOwnersEntry> entries)
     {
-        if (entries == null)
-            throw new ArgumentNullException(nameof(entries));
+        ArgumentNullException.ThrowIfNull(entries);
 
         var stringBuilder = new StringBuilder();
 
@@ -104,7 +102,7 @@ public static class CodeOwnersSerializer
         return stringBuilder.ToStringAndClear();
     }
 
-    private static IList<string> ParseOwners(StringLexer lexer, StringBuilder stringBuilder)
+    private static List<string> ParseOwners(StringLexer lexer, StringBuilder stringBuilder)
     {
         var owners = new List<string>();
 

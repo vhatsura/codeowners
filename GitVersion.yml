@@ -1,8 +1,1 @@
----
-mode: ContinuousDeployment
-branches:
-  main:
-    tag: alpha
-ignore:
-  sha: [ ]
-merge-message-formats: { }
+workflow: GitHubFlow/v1
